@@ -41,6 +41,7 @@ node_modules/
 dist/
 .vite/
 *.local
+*.tsbuildinfo
 
 # IDEs
 .idea/
