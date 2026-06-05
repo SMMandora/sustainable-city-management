@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "apps.core",
     "apps.observations",
     "apps.ingestion",
+    "apps.api",
 ]
 
 MIDDLEWARE = [
