@@ -1,0 +1,105 @@
+name: scm
+
+x-backend-env: &backend-env
+  DJANGO_SETTINGS_MODULE: config.settings.dev
+  DJANGO_SECRET_KEY: insecure-dev-key-change-me
+  DJANGO_DEBUG: "true"
+  DJANGO_ALLOWED_HOSTS: "*"
+  DATABASE_URL: postgres://postgres:postgres@postgres:5432/scm
+  REDIS_URL: redis://redis:6379/0
+  CELERY_BROKER_URL: redis://redis:6379/0
+  CELERY_RESULT_BACKEND: redis://redis:6379/0
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: scm
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d scm"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  web:
+    build:
+      context: ../services/backend
+      dockerfile: Dockerfile
+    image: scm-backend:dev
+    command:
+      - sh
+      - -c
+      - |
+        python manage.py migrate --noinput &&
+        gunicorn config.asgi:application \
+          -k uvicorn.workers.UvicornWorker \
+          -w 2 -b 0.0.0.0:8000 \
+          --reload \
+          --access-logfile - --error-logfile -
+    environment: *backend-env
+    volumes:
+      - ../services/backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+
+  worker:
+    image: scm-backend:dev
+    command: ["celery", "-A", "config", "worker", "-l", "info", "--concurrency=4"]
+    environment: *backend-env
+    volumes:
+      - ../services/backend:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      web:
+        condition: service_started
+
+  beat:
+    image: scm-backend:dev
+    command: ["celery", "-A", "config", "beat", "-l", "info", "-s", "/tmp/celerybeat-schedule"]
+    environment: *backend-env
+    volumes:
+      - ../services/backend:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      web:
+        condition: service_started
+
+volumes:
+  postgres_data:
+  redis_data:

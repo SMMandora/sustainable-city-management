@@ -1,0 +1,133 @@
+[project]
+name = "scm-backend"
+version = "0.1.0"
+description = "Sustainable City Management backend"
+requires-python = ">=3.12"
+dependencies = [
+    "django>=5.1,<5.2",
+    "djangorestframework>=3.15,<3.16",
+    "django-environ>=0.11,<0.12",
+    "django-cors-headers>=4.4,<5",
+    "django-prometheus>=2.3,<3",
+    "drf-spectacular>=0.27,<0.28",
+    "celery>=5.4,<6",
+    "redis>=5.0,<6",
+    "psycopg[binary]>=3.2,<4",
+    "gunicorn>=23,<24",
+    "uvicorn[standard]>=0.32,<0.33",
+    "httpx>=0.27,<0.28",
+    "pydantic>=2.9,<3",
+    "tenacity>=9,<10",
+    "pybreaker>=1.2,<2",
+    "structlog>=24,<25",
+    "django-structlog>=8,<9",
+    "orjson>=3.10,<4",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.8,<0.9",
+    "mypy>=1.13,<2",
+    "django-stubs[compatible-mypy]>=5.1,<6",
+    "djangorestframework-stubs[compatible-mypy]>=3.15,<4",
+    "bandit[toml]>=1.8,<2",
+    "pytest>=8.3,<9",
+    "pytest-django>=4.9,<5",
+    "pytest-cov>=6,<7",
+    "pytest-mock>=3.14,<4",
+    "factory-boy>=3.3,<4",
+    "freezegun>=1.5,<2",
+    "vcrpy>=6,<7",
+    "testcontainers[postgres,redis]>=4.8,<5",
+    "pre-commit>=4,<5",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["**/migrations/**"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",      # pycodestyle
+    "F",            # pyflakes
+    "I",            # isort
+    "N",            # pep8-naming
+    "UP",           # pyupgrade
+    "B",            # flake8-bugbear
+    "A",            # flake8-builtins
+    "C4",           # flake8-comprehensions
+    "DJ",           # flake8-django
+    "DTZ",          # flake8-datetimez (naive datetime is a bug here)
+    "RUF",          # ruff-specific
+    "SIM",          # flake8-simplify
+    "PL",           # pylint subset
+    "TID",          # flake8-tidy-imports
+]
+ignore = [
+    "PLR0913",      # too many arguments — DRF views often need them
+    "PLR2004",      # magic values — overkill in tests
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**" = ["PLR2004", "S101", "DTZ"]
+"**/settings/*.py" = ["F401", "F403", "F405"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
+warn_unreachable = true
+exclude = ["migrations/", "build/", "dist/"]
+disable_error_code = ["import-untyped"]
+
+[[tool.mypy.overrides]]
+module = ["*.migrations.*"]
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = ["pybreaker.*", "django_eventstream.*", "celery.*", "environ.*", "django_structlog.*"]
+ignore_missing_imports = true
+disable_error_code = ["import-untyped"]
+
+[tool.django-stubs]
+django_settings_module = "config.settings.test"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.test"
+addopts = "-ra --strict-markers --reuse-db --tb=short"
+markers = [
+    "integration: requires postgres+redis",
+    "contract: replays recorded upstream responses",
+    "slow: long-running tests",
+]
+testpaths = ["apps", "../../tests"]
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning:django.*",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["apps", "config"]
+omit = [
+    "*/migrations/*",
+    "*/tests/*",
+    "config/asgi.py",
+    "config/wsgi.py",
+    "manage.py",
+]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+skip_covered = true
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", "*/tests/*", "*/migrations/*"]
+skips = ["B101"]
