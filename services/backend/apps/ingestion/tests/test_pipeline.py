@@ -19,7 +19,9 @@ INFO_FEED = SOURCES["dublin_bikes"].feeds[0]
 STATUS_FEED = SOURCES["dublin_bikes"].feeds[1]
 
 
-def _response(body: object, *, status: int = 200, url: str = "https://example/station_status.json") -> httpx.Response:
+def _response(
+    body: object, *, status: int = 200, url: str = "https://example/station_status.json"
+) -> httpx.Response:
     content = json.dumps(body).encode("utf-8") if not isinstance(body, bytes) else body
     return httpx.Response(
         status_code=status,
@@ -29,11 +31,21 @@ def _response(body: object, *, status: int = 200, url: str = "https://example/st
 
 
 def _info_envelope(stations: list[dict[str, object]]) -> dict[str, object]:
-    return {"last_updated": 1_780_000_000, "ttl": 300, "version": "2.3", "data": {"stations": stations}}
+    return {
+        "last_updated": 1_780_000_000,
+        "ttl": 300,
+        "version": "2.3",
+        "data": {"stations": stations},
+    }
 
 
 def _status_envelope(stations: list[dict[str, object]]) -> dict[str, object]:
-    return {"last_updated": 1_780_000_000, "ttl": 1, "version": "2.3", "data": {"stations": stations}}
+    return {
+        "last_updated": 1_780_000_000,
+        "ttl": 1,
+        "version": "2.3",
+        "data": {"stations": stations},
+    }
 
 
 def _make_station(source: DataSource, ext_id: str = "42") -> BikeStation:
@@ -121,9 +133,17 @@ def test_partial_failure_persists_good_dead_letters_bad(source: DataSource) -> N
 
 
 def test_running_twice_does_not_duplicate_stations(source: DataSource) -> None:
-    env = _info_envelope([{
-        "station_id": "42", "name": "X", "lat": 53.35, "lon": -6.27, "capacity": 30,
-    }])
+    env = _info_envelope(
+        [
+            {
+                "station_id": "42",
+                "name": "X",
+                "lat": 53.35,
+                "lon": -6.27,
+                "capacity": 30,
+            }
+        ]
+    )
     pipeline.process(source, _response(env), INFO_FEED)
     pipeline.process(source, _response(env), INFO_FEED)
     assert BikeStation.objects.count() == 1
@@ -132,11 +152,19 @@ def test_running_twice_does_not_duplicate_stations(source: DataSource) -> None:
 
 def test_running_twice_does_not_duplicate_availability(source: DataSource) -> None:
     _make_station(source)
-    env = _status_envelope([{
-        "station_id": "42", "num_bikes_available": 5, "num_docks_available": 25,
-        "is_installed": True, "is_renting": True, "is_returning": True,
-        "last_reported": 1_780_000_000,
-    }])
+    env = _status_envelope(
+        [
+            {
+                "station_id": "42",
+                "num_bikes_available": 5,
+                "num_docks_available": 25,
+                "is_installed": True,
+                "is_renting": True,
+                "is_returning": True,
+                "last_reported": 1_780_000_000,
+            }
+        ]
+    )
     pipeline.process(source, _response(env), STATUS_FEED)
     pipeline.process(source, _response(env), STATUS_FEED)
     assert BikeAvailability.objects.count() == 1
@@ -146,11 +174,19 @@ def test_running_twice_does_not_duplicate_availability(source: DataSource) -> No
 
 
 def test_unknown_station_id_in_status_is_dead_lettered(source: DataSource) -> None:
-    env = _status_envelope([{
-        "station_id": "ghost", "num_bikes_available": 1, "num_docks_available": 1,
-        "is_installed": True, "is_renting": True, "is_returning": True,
-        "last_reported": 1_780_000_000,
-    }])
+    env = _status_envelope(
+        [
+            {
+                "station_id": "ghost",
+                "num_bikes_available": 1,
+                "num_docks_available": 1,
+                "is_installed": True,
+                "is_renting": True,
+                "is_returning": True,
+                "last_reported": 1_780_000_000,
+            }
+        ]
+    )
     pipeline.process(source, _response(env), STATUS_FEED)
 
     assert BikeAvailability.objects.count() == 0
@@ -163,14 +199,28 @@ def test_unknown_station_id_in_status_is_dead_lettered(source: DataSource) -> No
 
 def test_status_persists_known_skips_unknown(source: DataSource) -> None:
     _make_station(source, "42")
-    env = _status_envelope([
-        {"station_id": "42", "num_bikes_available": 5, "num_docks_available": 25,
-         "is_installed": True, "is_renting": True, "is_returning": True,
-         "last_reported": 1_780_000_000},
-        {"station_id": "ghost", "num_bikes_available": 1, "num_docks_available": 1,
-         "is_installed": True, "is_renting": True, "is_returning": True,
-         "last_reported": 1_780_000_000},
-    ])
+    env = _status_envelope(
+        [
+            {
+                "station_id": "42",
+                "num_bikes_available": 5,
+                "num_docks_available": 25,
+                "is_installed": True,
+                "is_renting": True,
+                "is_returning": True,
+                "last_reported": 1_780_000_000,
+            },
+            {
+                "station_id": "ghost",
+                "num_bikes_available": 1,
+                "num_docks_available": 1,
+                "is_installed": True,
+                "is_renting": True,
+                "is_returning": True,
+                "last_reported": 1_780_000_000,
+            },
+        ]
+    )
     pipeline.process(source, _response(env), STATUS_FEED)
     assert BikeAvailability.objects.count() == 1
     assert DeadLetter.objects.filter(error_type="MissingStation").count() == 1
@@ -181,21 +231,37 @@ def test_status_persists_known_skips_unknown(source: DataSource) -> None:
 
 def test_status_open_when_all_flags_true(source: DataSource) -> None:
     _make_station(source)
-    env = _status_envelope([{
-        "station_id": "42", "num_bikes_available": 0, "num_docks_available": 30,
-        "is_installed": True, "is_renting": True, "is_returning": True,
-        "last_reported": 1_780_000_000,
-    }])
+    env = _status_envelope(
+        [
+            {
+                "station_id": "42",
+                "num_bikes_available": 0,
+                "num_docks_available": 30,
+                "is_installed": True,
+                "is_renting": True,
+                "is_returning": True,
+                "last_reported": 1_780_000_000,
+            }
+        ]
+    )
     pipeline.process(source, _response(env), STATUS_FEED)
     assert BikeAvailability.objects.get().status == BikeAvailability.Status.OPEN
 
 
 def test_status_closed_when_any_flag_false(source: DataSource) -> None:
     _make_station(source)
-    env = _status_envelope([{
-        "station_id": "42", "num_bikes_available": 0, "num_docks_available": 30,
-        "is_installed": True, "is_renting": False, "is_returning": True,
-        "last_reported": 1_780_000_000,
-    }])
+    env = _status_envelope(
+        [
+            {
+                "station_id": "42",
+                "num_bikes_available": 0,
+                "num_docks_available": 30,
+                "is_installed": True,
+                "is_renting": False,
+                "is_returning": True,
+                "last_reported": 1_780_000_000,
+            }
+        ]
+    )
     pipeline.process(source, _response(env), STATUS_FEED)
     assert BikeAvailability.objects.get().status == BikeAvailability.Status.CLOSED

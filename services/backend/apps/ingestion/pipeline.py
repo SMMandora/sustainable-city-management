@@ -44,7 +44,7 @@ def process(source: DataSource, response: httpx.Response, feed: FeedConfig) -> d
     )
 
     try:
-        envelope = feed.envelope_schema.model_validate(body_json)
+        feed.envelope_schema.model_validate(body_json)
     except ValidationError as exc:
         DeadLetter.objects.create(
             source=source,
@@ -57,7 +57,18 @@ def process(source: DataSource, response: httpx.Response, feed: FeedConfig) -> d
         log.warning("ingest.envelope_invalid", source=source.slug, feed=feed.name)
         return {"raw_id": raw.id, "validated": 0, "deadlettered": 1, "stage": "envelope"}
 
-    records: list[dict[str, Any]] = envelope.data.stations  # type: ignore[attr-defined]
+    try:
+        records: list[Any] = feed.records_extractor(body_json)
+    except (KeyError, TypeError, AttributeError) as exc:
+        DeadLetter.objects.create(
+            source=source,
+            raw_payload=raw,
+            stage=DeadLetter.Stage.PARSE,
+            error_type="RecordsExtractionError",
+            error_message=str(exc),
+        )
+        return {"raw_id": raw.id, "validated": 0, "deadlettered": 1, "stage": "extract"}
+
     validated: list[Any] = []
     deadlettered = 0
     for record in records:

@@ -72,7 +72,10 @@ def test_poll_source_happy_path_invokes_pipeline_per_feed(enabled_source: DataSo
         breaker.call.return_value = fake_response
         mock_breaker_factory.return_value = breaker
         mock_process.return_value = {
-            "raw_id": 1, "validated": 0, "deadlettered": 0, "upserted": 0,
+            "raw_id": 1,
+            "validated": 0,
+            "deadlettered": 0,
+            "upserted": 0,
         }
         result = poll_source("dublin_bikes")
 

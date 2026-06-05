@@ -13,7 +13,6 @@ from apps.ingestion.schemas.bikes import (
     GBFSStationStatusPayload,
 )
 
-
 # ---------- GBFSStationInfo ----------
 
 
@@ -158,9 +157,7 @@ def test_envelope_rejects_missing_data() -> None:
 
 def test_envelope_rejects_string_last_updated() -> None:
     with pytest.raises(ValidationError):
-        GBFSStationInfoPayload.model_validate(
-            {**_envelope([]), "last_updated": "today"}
-        )
+        GBFSStationInfoPayload.model_validate({**_envelope([]), "last_updated": "today"})
 
 
 def test_envelope_rejects_negative_ttl() -> None:

@@ -15,4 +15,16 @@ app.conf.beat_schedule = {
         "args": ("dublin_bikes",),
         "options": {"expires": 55},
     },
+    "ingest-openweather": {
+        "task": "apps.ingestion.tasks.poll_source",
+        "schedule": 60.0,
+        "args": ("openweather",),
+        "options": {"expires": 55},
+    },
+    "ingest-sonitus": {
+        "task": "apps.ingestion.tasks.poll_source",
+        "schedule": 60.0,
+        "args": ("sonitus",),
+        "options": {"expires": 55},
+    },
 }

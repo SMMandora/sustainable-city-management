@@ -1,0 +1,39 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.openweathermap.org
+    method: GET
+    uri: https://api.openweathermap.org/data/2.5/weather?lat=53.349805&lon=-6.260310&units=metric
+  response:
+    body:
+      string: '{"coord":{"lon":-6.2603,"lat":53.3498},"weather":[{"id":804,"main":"Clouds","description":"overcast
+        clouds","icon":"04d"}],"base":"stations","main":{"temp":16.35,"feels_like":15.48,"temp_min":14.38,"temp_max":16.82,"pressure":1005,"humidity":55,"sea_level":1005,"grnd_level":991},"visibility":10000,"wind":{"speed":4.92,"deg":140,"gust":10.73},"clouds":{"all":95},"dt":1780676391,"sys":{"type":2,"id":2091862,"country":"IE","sunrise":1780632043,"sunset":1780692397},"timezone":3600,"id":2962486,"name":"Mountjoy","cod":200}'
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '523'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 05 Jun 2026 16:24:27 GMT
+      X-Cache-Key:
+      - /data/2.5/weather?lat=53.35&lon=-6.26&units=metric
+    status:
+      code: 200
+      message: OK
+version: 1

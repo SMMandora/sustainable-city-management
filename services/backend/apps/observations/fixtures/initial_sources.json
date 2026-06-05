@@ -28,7 +28,7 @@
       "slug": "openweather",
       "display_name": "OpenWeather (Dublin)",
       "base_url": "https://api.openweathermap.org/data/2.5/",
-      "enabled": false,
+      "enabled": true,
       "created_at": "2026-06-01T00:00:00Z"
     }
   }

@@ -59,6 +59,60 @@ class BikeAvailability(models.Model):
         ]
 
 
+class NoiseSensor(models.Model):
+    source = models.ForeignKey(DataSource, on_delete=models.PROTECT, related_name="noise_sensors")
+    external_id = models.CharField(max_length=64)
+    label = models.CharField(max_length=200)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6)
+    first_seen_at = models.DateTimeField(auto_now_add=True)
+    last_seen_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["source", "external_id"], name="uniq_noise_sensor"),
+        ]
+        indexes = [models.Index(fields=["latitude", "longitude"])]
+
+    def __str__(self) -> str:
+        return f"{self.external_id} {self.label}"
+
+
+class NoiseReading(models.Model):
+    sensor = models.ForeignKey(NoiseSensor, on_delete=models.PROTECT, related_name="readings")
+    observed_at = models.DateTimeField()
+    ingested_at = models.DateTimeField(auto_now_add=True)
+    laeq_db = models.DecimalField(max_digits=5, decimal_places=2)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["sensor", "observed_at"], name="uniq_noise_obs"),
+        ]
+        indexes = [
+            models.Index(fields=["sensor", "-observed_at"], name="noise_sensor_obs_idx"),
+            models.Index(fields=["-observed_at"], name="noise_obs_idx"),
+        ]
+
+
+class WeatherObservation(models.Model):
+    source = models.ForeignKey(
+        DataSource, on_delete=models.PROTECT, related_name="weather_observations"
+    )
+    observed_at = models.DateTimeField()
+    ingested_at = models.DateTimeField(auto_now_add=True)
+    temp_c = models.DecimalField(max_digits=4, decimal_places=1)
+    humidity = models.PositiveSmallIntegerField()
+    wind_speed_ms = models.DecimalField(max_digits=4, decimal_places=1)
+    conditions = models.CharField(max_length=64)
+    raw = models.JSONField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["source", "observed_at"], name="uniq_weather_obs"),
+        ]
+        indexes = [models.Index(fields=["-observed_at"], name="weather_obs_idx")]
+
+
 class RawPayload(models.Model):
     source = models.ForeignKey(DataSource, on_delete=models.PROTECT, related_name="raw_payloads")
     fetched_at = models.DateTimeField(auto_now_add=True)
