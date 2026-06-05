@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Any
 
 import environ
+import structlog
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
@@ -28,6 +29,8 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django_structlog",
     "apps.core",
+    "apps.observations",
+    "apps.ingestion",
 ]
 
 MIDDLEWARE = [
@@ -130,7 +133,7 @@ LOGGING: dict[str, Any] = {
     "formatters": {
         "json": {
             "()": "structlog.stdlib.ProcessorFormatter",
-            "processor": "structlog.processors.JSONRenderer",
+            "processor": structlog.processors.JSONRenderer(),
         },
     },
     "handlers": {

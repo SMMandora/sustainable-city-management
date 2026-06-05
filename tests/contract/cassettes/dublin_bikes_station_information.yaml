@@ -1,0 +1,161 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - api.cyclocity.fr
+    method: GET
+    uri: https://api.cyclocity.fr/contracts/dublin/gbfs/v2/station_information.json
+  response:
+    body:
+      string: '{"last_updated":1780675560,"ttl":300,"version":"2.3","data":{"stations":[{"station_id":"1","name":"CLARENDON
+        ROW","lat":53.340927,"lon":-6.262501,"address":"Clarendon Row","capacity":31},{"station_id":"2","name":"BLESSINGTON
+        STREET","lat":53.356769,"lon":-6.26814,"address":"Blessington Street","capacity":20},{"station_id":"3","name":"BOLTON
+        STREET","lat":53.351182,"lon":-6.269859,"address":"Bolton Street","capacity":20},{"station_id":"4","name":"GREEK
+        STREET","lat":53.346874,"lon":-6.272976,"address":"Greek Street","capacity":20},{"station_id":"5","name":"CHARLEMONT
+        PLACE","lat":53.330704,"lon":-6.260004,"address":"Charlemont Street","capacity":40},{"station_id":"6","name":"CHRISTCHURCH
+        PLACE","lat":53.343368,"lon":-6.27012,"address":"Christchurch Place","capacity":20},{"station_id":"7","name":"HIGH
+        STREET","lat":53.34342,"lon":-6.274413,"address":"High Street","capacity":29},{"station_id":"8","name":"CUSTOM
+        HOUSE QUAY","lat":53.347884,"lon":-6.248048,"address":"Custom House Quay","capacity":30},{"station_id":"9","name":"EXCHEQUER
+        STREET","lat":53.343034,"lon":-6.263578,"address":"Exchequer Street","capacity":24},{"station_id":"10","name":"DAME
+        STREET","lat":53.344007,"lon":-6.266802,"address":"Dame Street","capacity":16},{"station_id":"11","name":"EARLSFORT
+        TERRACE","lat":53.334295,"lon":-6.258503,"address":"Earlsfort Terrace","capacity":30},{"station_id":"12","name":"ECCLES
+        STREET","lat":53.359246,"lon":-6.269779,"address":"Eccles Street","capacity":20},{"station_id":"13","name":"FITZWILLIAM
+        SQUARE WEST","lat":53.336074,"lon":-6.252825,"address":"Fitzwilliam Square
+        West","capacity":30},{"station_id":"14","name":"FOWNES STREET UPPER","lat":53.344603,"lon":-6.263371,"address":"Fownes
+        Street Upper","capacity":30},{"station_id":"15","name":"HARDWICKE STREET","lat":53.355473,"lon":-6.264423,"address":"Hardwicke
+        Street","capacity":16},{"station_id":"16","name":"GEORGES QUAY","lat":53.347508,"lon":-6.252192,"address":"Georges
+        Quay","capacity":20},{"station_id":"17","name":"GOLDEN LANE","lat":53.340803,"lon":-6.267732,"address":"Golden
+        Lane","capacity":20},{"station_id":"18","name":"GRANTHAM STREET","lat":53.334126,"lon":-6.265667,"address":"Grantham
+        Street","capacity":30},{"station_id":"19","name":"HERBERT PLACE","lat":53.334702,"lon":-6.245139,"address":"Herbert
+        Place","capacity":30},{"station_id":"20","name":"JAMES STREET EAST","lat":53.336485,"lon":-6.248174,"address":"James
+        Street East","capacity":30},{"station_id":"21","name":"LEINSTER STREET SOUTH","lat":53.342145,"lon":-6.254185,"address":"Leinster
+        Street South","capacity":30},{"station_id":"22","name":"TOWNSEND STREET","lat":53.345922,"lon":-6.254614,"address":"Townsend
+        Street","capacity":20},{"station_id":"23","name":"CUSTOM HOUSE","lat":53.348282,"lon":-6.254358,"address":"Custom
+        House","capacity":30},{"station_id":"24","name":"CATHAL BRUGHA STREET","lat":53.352213,"lon":-6.260328,"address":"Cathal
+        Brugha Street","capacity":20},{"station_id":"25","name":"MERRION SQUARE EAST","lat":53.339069,"lon":-6.247006,"address":"Merrion
+        Square East","capacity":30},{"station_id":"26","name":"MERRION SQUARE WEST","lat":53.340071,"lon":-6.251716,"address":"Merrion
+        Square West","capacity":20},{"station_id":"27","name":"MOLESWORTH STREET","lat":53.341235,"lon":-6.257594,"address":"Molesworth
+        Street","capacity":20},{"station_id":"28","name":"MOUNTJOY SQUARE WEST","lat":53.356299,"lon":-6.258586,"address":"Mountjoy
+        Square West","capacity":30},{"station_id":"29","name":"ORMOND QUAY UPPER","lat":53.346108,"lon":-6.268345,"address":"Ormond
+        Quay Upper","capacity":29},{"station_id":"30","name":"PARNELL SQUARE NORTH","lat":53.353742,"lon":-6.265301,"address":"Parnell
+        Square North","capacity":20},{"station_id":"31","name":"PARNELL STREET","lat":53.350929,"lon":-6.265125,"address":"Parnell
+        Street","capacity":20},{"station_id":"32","name":"PEARSE STREET","lat":53.344304,"lon":-6.250427,"address":"Pearse
+        Street","capacity":30},{"station_id":"33","name":"PRINCES STREET / O''CONNELL
+        STREET","lat":53.349013,"lon":-6.260311,"address":"Princes Street / O''Connell
+        Street","capacity":23},{"station_id":"34","name":"LENNOX STREET","lat":53.331384,"lon":-6.265023,"address":"Lennox
+        Street","capacity":40},{"station_id":"35","name":"SMITHFIELD","lat":53.347692,"lon":-6.278214,"address":"Smithfield","capacity":30},{"station_id":"36","name":"ST.
+        STEPHEN''S GREEN EAST","lat":53.337636,"lon":-6.256218,"address":"St. Stephen''s
+        Green East","capacity":40},{"station_id":"37","name":"ST. STEPHEN''S GREEN
+        SOUTH","lat":53.337494,"lon":-6.26199,"address":"St. Stephen''s Green South","capacity":30},{"station_id":"38","name":"TALBOT
+        STREET","lat":53.350999,"lon":-6.252661,"address":"Talbot Street","capacity":40},{"station_id":"39","name":"WILTON
+        TERRACE","lat":53.332383,"lon":-6.252717,"address":"Wilton Terrace","capacity":20},{"station_id":"40","name":"JERVIS
+        STREET","lat":53.3483,"lon":-6.266651,"address":"Jervis Street","capacity":21},{"station_id":"41","name":"HARCOURT
+        TERRACE","lat":53.332416,"lon":-6.25787,"address":"Harcourt Terrace","capacity":20},{"station_id":"42","name":"SMITHFIELD
+        NORTH","lat":53.349562,"lon":-6.278198,"address":"Smithfield North","capacity":30},{"station_id":"43","name":"PORTOBELLO
+        ROAD","lat":53.330091,"lon":-6.268044,"address":"Portobello Road","capacity":30},{"station_id":"44","name":"UPPER
+        SHERRARD STREET","lat":53.358593,"lon":-6.260298,"address":"Upper Sherrard
+        Street","capacity":30},{"station_id":"45","name":"DEVERELL PLACE","lat":53.351464,"lon":-6.255265,"address":"Deverell
+        Place","capacity":30},{"station_id":"47","name":"HERBERT STREET","lat":53.335742,"lon":-6.24551,"address":"Herbert
+        Street","capacity":40},{"station_id":"48","name":"EXCISE WALK","lat":53.347777,"lon":-6.244239,"address":"Excise
+        Walk","capacity":40},{"station_id":"49","name":"GUILD STREET","lat":53.347932,"lon":-6.240928,"address":"Guild
+        Street","capacity":40},{"station_id":"50","name":"GEORGES LANE","lat":53.35023,"lon":-6.279696,"address":"George''s
+        Lane","capacity":40},{"station_id":"51","name":"YORK STREET WEST","lat":53.339334,"lon":-6.264699,"address":"York
+        Street West","capacity":40},{"station_id":"52","name":"YORK STREET EAST","lat":53.338755,"lon":-6.262003,"address":"York
+        Street East","capacity":32},{"station_id":"53","name":"NEWMAN HOUSE","lat":53.337132,"lon":-6.26059,"address":"Newman
+        House","capacity":40},{"station_id":"54","name":"CLONMEL STREET","lat":53.336021,"lon":-6.26298,"address":"Clonmel
+        Street","capacity":33},{"station_id":"55","name":"HATCH STREET","lat":53.33403,"lon":-6.260714,"address":"Hatch
+        Street","capacity":36},{"station_id":"56","name":"MOUNT STREET LOWER","lat":53.337985,"lon":-6.241539,"address":"Mount
+        Street Lower","capacity":40},{"station_id":"57","name":"GRATTAN STREET","lat":53.339629,"lon":-6.243778,"address":"Grattan
+        Street","capacity":23},{"station_id":"58","name":"SIR PATRICK DUN''S","lat":53.339218,"lon":-6.240642,"address":"Sir
+        Patrick''s Dun","capacity":40},{"station_id":"59","name":"DENMARK STREET GREAT","lat":53.35561,"lon":-6.261397,"address":"Denmark
+        Street Great","capacity":20},{"station_id":"60","name":"NORTH CIRCULAR ROAD","lat":53.359624,"lon":-6.260348,"address":"North
+        Circular Road","capacity":30},{"station_id":"61","name":"HARDWICKE PLACE","lat":53.357043,"lon":-6.263232,"address":"Hardwicke
+        Place","capacity":25},{"station_id":"62","name":"LIME STREET","lat":53.346026,"lon":-6.243576,"address":"Lime
+        Street","capacity":40},{"station_id":"63","name":"FENIAN STREET","lat":53.341428,"lon":-6.24672,"address":"Fenian
+        Street","capacity":35},{"station_id":"64","name":"SANDWITH STREET","lat":53.345203,"lon":-6.247163,"address":"Sandwith
+        Street","capacity":40},{"station_id":"65","name":"CONVENTION CENTRE","lat":53.34744,"lon":-6.238523,"address":"Convention
+        Centre","capacity":40},{"station_id":"66","name":"NEW CENTRAL BANK","lat":53.347122,"lon":-6.234749,"address":"New
+        Central Bank","capacity":40},{"station_id":"67","name":"THE POINT","lat":53.346867,"lon":-6.230852,"address":"The
+        Point","capacity":40},{"station_id":"68","name":"HANOVER QUAY","lat":53.344115,"lon":-6.237153,"address":"Hanover
+        Quay","capacity":40},{"station_id":"69","name":"GRAND CANAL DOCK","lat":53.342638,"lon":-6.238695,"address":"Grand
+        Canal Dock","capacity":40},{"station_id":"70","name":"BARROW STREET","lat":53.338311,"lon":-6.236779,"address":"Barrow
+        Street","capacity":21},{"station_id":"71","name":"KEVIN STREET","lat":53.337757,"lon":-6.267699,"address":"Kevin
+        Street","capacity":40},{"station_id":"72","name":"JOHN STREET WEST","lat":53.343105,"lon":-6.277167,"address":"John
+        Street West","capacity":31},{"station_id":"73","name":"FRANCIS STREET","lat":53.342081,"lon":-6.275233,"address":"Francis
+        Street","capacity":30},{"station_id":"74","name":"OLIVER BOND STREET","lat":53.343893,"lon":-6.280531,"address":"Oliver
+        Bond Street","capacity":30},{"station_id":"75","name":"JAMES STREET","lat":53.343456,"lon":-6.287409,"address":"James
+        Street","capacity":40},{"station_id":"76","name":"MARKET STREET SOUTH","lat":53.342296,"lon":-6.287661,"address":"Market
+        Street South","capacity":38},{"station_id":"77","name":"WOLFE TONE STREET","lat":53.348875,"lon":-6.267459,"address":"Wolfe
+        Tone Street","capacity":29},{"station_id":"78","name":"MATER HOSPITAL","lat":53.359967,"lon":-6.264828,"address":"Mater
+        Hospital","capacity":40},{"station_id":"79","name":"ECCLES STREET EAST","lat":53.358115,"lon":-6.265601,"address":"Eccles
+        Street East","capacity":27},{"station_id":"80","name":"ST JAMES HOSPITAL (LUAS)","lat":53.341359,"lon":-6.292951,"address":"St
+        James Hospital (Luas)","capacity":40},{"station_id":"82","name":"MOUNT BROWN","lat":53.341645,"lon":-6.29719,"address":"Mount
+        Brown","capacity":22},{"station_id":"83","name":"EMMET ROAD","lat":53.340714,"lon":-6.308191,"address":"Emmet
+        Road","capacity":40},{"station_id":"84","name":"BROOKFIELD ROAD","lat":53.339005,"lon":-6.300217,"address":"Brookfield
+        Road","capacity":30},{"station_id":"85","name":"ROTHE ABBEY","lat":53.338776,"lon":-6.30395,"address":"Rothe
+        Abbey","capacity":35},{"station_id":"86","name":"PARKGATE STREET","lat":53.347972,"lon":-6.291804,"address":"Parkgate
+        Street","capacity":38},{"station_id":"87","name":"COLLINS BARRACKS MUSEUM","lat":53.347477,"lon":-6.28525,"address":"Collins
+        Barracks Museum","capacity":38},{"station_id":"88","name":"BLACKHALL PLACE","lat":53.3488,"lon":-6.281637,"address":"Blackhall
+        Place","capacity":30},{"station_id":"89","name":"FITZWILLIAM SQUARE EAST","lat":53.335211,"lon":-6.2509,"address":"Fitzwilliam
+        Square East","capacity":40},{"station_id":"90","name":"BENSON STREET","lat":53.344153,"lon":-6.233451,"address":"Benson
+        Street","capacity":40},{"station_id":"91","name":"SOUTH DOCK ROAD","lat":53.341833,"lon":-6.231291,"address":"South
+        Dock Road","capacity":30},{"station_id":"92","name":"HEUSTON BRIDGE (NORTH)","lat":53.347802,"lon":-6.292432,"address":"Heuston
+        Bridge (North)","capacity":40},{"station_id":"93","name":"HEUSTON STATION
+        (CENTRAL)","lat":53.346603,"lon":-6.296924,"address":"Heuston Station (Central)","capacity":40},{"station_id":"94","name":"HEUSTON
+        STATION (CAR PARK)","lat":53.346985,"lon":-6.297804,"address":"Heuston Station
+        (Car Park)","capacity":40},{"station_id":"95","name":"ROYAL HOSPITAL","lat":53.343897,"lon":-6.29706,"address":"Royal
+        Hospital","capacity":40},{"station_id":"96","name":"KILMAINHAM LANE","lat":53.341805,"lon":-6.305085,"address":"Kilmainham
+        Lane","capacity":30},{"station_id":"97","name":"KILMAINHAM GAOL","lat":53.342113,"lon":-6.310015,"address":"Kilmainham
+        Gaol","capacity":40},{"station_id":"98","name":"FREDERICK STREET SOUTH","lat":53.341515,"lon":-6.256853,"address":"Frederick
+        Street South","capacity":40},{"station_id":"99","name":"CITY QUAY","lat":53.346637,"lon":-6.246154,"address":"City
+        Quay","capacity":30},{"station_id":"100","name":"HEUSTON BRIDGE (SOUTH)","lat":53.347106,"lon":-6.292041,"address":"Heuston
+        Bridge (South)","capacity":25},{"station_id":"101","name":"KING STREET NORTH","lat":53.350291,"lon":-6.273507,"address":"King
+        Street North","capacity":30},{"station_id":"102","name":"WESTERN WAY","lat":53.354929,"lon":-6.269425,"address":"Western
+        Way","capacity":40},{"station_id":"103","name":"GRANGEGORMAN LOWER (SOUTH)","lat":53.354663,"lon":-6.278681,"address":"Grangegorman
+        Lower (South)","capacity":40},{"station_id":"104","name":"GRANGEGORMAN LOWER
+        (CENTRAL)","lat":53.355173,"lon":-6.278424,"address":"Grangegorman Lower (Central)","capacity":40},{"station_id":"105","name":"GRANGEGORMAN
+        LOWER (NORTH)","lat":53.355954,"lon":-6.278378,"address":"Grangegorman Lower
+        (North)","capacity":36},{"station_id":"106","name":"RATHDOWN ROAD","lat":53.35893,"lon":-6.280337,"address":"Rathdown
+        Road","capacity":40},{"station_id":"107","name":"CHARLEVILLE ROAD","lat":53.359157,"lon":-6.281866,"address":"Charleville
+        Road","capacity":40},{"station_id":"108","name":"AVONDALE ROAD","lat":53.359405,"lon":-6.276142,"address":"Avondale
+        Road","capacity":35},{"station_id":"109","name":"BUCKINGHAM STREET LOWER","lat":53.353331,"lon":-6.249319,"address":"Buckingham
+        Street Lower","capacity":29},{"station_id":"110","name":"PHIBSBOROUGH ROAD","lat":53.356307,"lon":-6.273717,"address":"Phibsborough
+        Road","capacity":40},{"station_id":"111","name":"MOUNTJOY SQUARE EAST","lat":53.356717,"lon":-6.256359,"address":"Mountjoy
+        Square East","capacity":40},{"station_id":"112","name":"NORTH CIRCULAR ROAD
+        (O''CONNELL''S)","lat":53.357841,"lon":-6.251557,"address":"North Circular
+        Road (O''Connell''s)","capacity":30},{"station_id":"113","name":"MERRION SQUARE
+        SOUTH","lat":53.338614,"lon":-6.248606,"address":"Merrion Square South","capacity":40},{"station_id":"114","name":"WILTON
+        TERRACE (PARK)","lat":53.333653,"lon":-6.248345,"address":"Wilton Terrace
+        (Park)","capacity":40},{"station_id":"115","name":"KILLARNEY STREET","lat":53.354845,"lon":-6.247579,"address":"Killarney
+        Street","capacity":30},{"station_id":"116","name":"BROADSTONE","lat":53.3547,"lon":-6.272314,"address":"Broadstone","capacity":30},{"station_id":"117","name":"HANOVER
+        QUAY EAST","lat":53.343653,"lon":-6.231755,"address":"Hanover Quay East","capacity":40},{"station_id":"118","name":"STATION118","lat":53.331384,"lon":-6.265023,"address":"STATION118","capacity":40},{"station_id":"507","name":"","lat":53.343305,"lon":-6.266784,"address":"","capacity":1}]}}'
+    headers:
+      Cache-Control:
+      - no-transform, max-age=300
+      Connection:
+      - Keep-Alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 05 Jun 2026 16:06:01 GMT
+      ETag:
+      - '560248848'
+      Keep-Alive:
+      - timeout=15, max=50
+      Server:
+      - Apache
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: ''
+version: 1

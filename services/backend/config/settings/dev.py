@@ -1,3 +1,5 @@
+import structlog
+
 from .base import *
 
 DEBUG = True
@@ -10,6 +12,6 @@ CORS_ALLOWED_ORIGINS = [
 
 LOGGING["formatters"]["console"] = {
     "()": "structlog.stdlib.ProcessorFormatter",
-    "processor": "structlog.dev.ConsoleRenderer",
+    "processor": structlog.dev.ConsoleRenderer(colors=False),
 }
 LOGGING["handlers"]["console"]["formatter"] = "console"

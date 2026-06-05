@@ -50,6 +50,7 @@ services:
       - -c
       - |
         python manage.py migrate --noinput &&
+        python manage.py loaddata apps/observations/fixtures/initial_sources.json &&
         gunicorn config.asgi:application \
           -k uvicorn.workers.UvicornWorker \
           -w 2 -b 0.0.0.0:8000 \

@@ -72,6 +72,7 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "**/tests/**" = ["PLR2004", "S101", "DTZ"]
 "**/settings/*.py" = ["F401", "F403", "F405"]
+"**/models.py" = ["RUF012", "DJ008"]
 
 [tool.mypy]
 python_version = "3.12"

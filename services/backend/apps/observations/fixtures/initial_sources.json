@@ -1,0 +1,35 @@
+[
+  {
+    "model": "observations.datasource",
+    "pk": 1,
+    "fields": {
+      "slug": "dublin_bikes",
+      "display_name": "Dublin Bikes (JCDecaux GBFS)",
+      "base_url": "https://api.cyclocity.fr/contracts/dublin/gbfs/v2/",
+      "enabled": true,
+      "created_at": "2026-06-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "observations.datasource",
+    "pk": 2,
+    "fields": {
+      "slug": "sonitus",
+      "display_name": "Sonitus (Dublin Noise Sensors)",
+      "base_url": "https://data.smartdublin.ie/sonitus-api/",
+      "enabled": false,
+      "created_at": "2026-06-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "observations.datasource",
+    "pk": 3,
+    "fields": {
+      "slug": "openweather",
+      "display_name": "OpenWeather (Dublin)",
+      "base_url": "https://api.openweathermap.org/data/2.5/",
+      "enabled": false,
+      "created_at": "2026-06-01T00:00:00Z"
+    }
+  }
+]
