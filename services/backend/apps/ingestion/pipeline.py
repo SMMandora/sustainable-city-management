@@ -7,6 +7,7 @@ import httpx
 import structlog
 from pydantic import ValidationError
 
+from apps.ingestion import metrics
 from apps.ingestion.registry import FeedConfig
 from apps.observations.models import DataSource, DeadLetter, RawPayload
 
@@ -87,6 +88,7 @@ def process(source: DataSource, response: httpx.Response, feed: FeedConfig) -> d
             deadlettered += 1
 
     result = feed.persister(source, raw, validated)
+    metrics.record_pipeline_result(source.slug, feed.name, len(validated), deadlettered)
     log.info(
         "ingest.processed",
         source=source.slug,

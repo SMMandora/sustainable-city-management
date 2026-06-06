@@ -6,7 +6,7 @@ import pybreaker
 import structlog
 from celery import shared_task
 
-from apps.ingestion import pipeline
+from apps.ingestion import metrics, pipeline
 from apps.ingestion.circuit import get_breaker
 from apps.ingestion.exceptions import TransientError
 from apps.ingestion.registry import SOURCES
@@ -37,6 +37,7 @@ def poll_source(self: Any, source_slug: str) -> dict[str, Any]:
     breaker = get_breaker(source_slug)
     client = config.client_class(source.base_url)
 
+    metrics.record_breaker_state(source_slug, breaker)
     summaries: list[dict[str, Any]] = []
     for feed in config.feeds:
         fetch = getattr(client, feed.fetch_method)

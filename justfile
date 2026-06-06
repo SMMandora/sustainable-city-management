@@ -83,3 +83,6 @@ deploy-staging:
 
 undeploy-staging:
     kubectl delete -k deploy/k8s/overlays/kind
+
+load-test:
+    k6 run tests/load/query-api.js

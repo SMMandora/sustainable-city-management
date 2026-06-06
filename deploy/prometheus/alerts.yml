@@ -1,0 +1,80 @@
+groups:
+  - name: ingestion
+    interval: 30s
+    rules:
+      - alert: IngestStalled
+        expr: time() - scm_last_successful_poll_timestamp > 600
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Ingest stalled for {{ $labels.source }}"
+          description: |
+            No successful poll for source {{ $labels.source }} in the last
+            10 minutes. Check upstream availability and worker logs.
+
+      - alert: DeadLetterSpike
+        expr: rate(scm_ingest_records_total{outcome="deadletter"}[5m]) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Dead-letter rate elevated on {{ $labels.source }}"
+          description: |
+            >0.5 records/sec dead-lettered on {{ $labels.source }} for 5 min.
+            Upstream schema may have drifted; check the latest DeadLetter rows
+            and consider re-recording the contract cassette.
+
+      - alert: CircuitOpen
+        expr: scm_circuit_breaker_state == 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Circuit breaker open for {{ $labels.source }}"
+          description: |
+            Breaker has been open for 5 minutes — 5 consecutive failures.
+            Verify upstream is reachable and consider toggling the source
+            disabled in admin if the outage is prolonged.
+
+  - name: api
+    interval: 30s
+    rules:
+      - alert: APIHighErrorRate
+        expr: |
+          sum(rate(django_http_responses_total_by_status{status=~"5.."}[5m]))
+          / sum(rate(django_http_responses_total_by_status[5m]))
+          > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "API 5xx rate above 5%"
+          description: "Investigate web logs and DB latency."
+
+      - alert: APIHighLatency
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(django_http_requests_latency_including_middlewares_seconds_bucket[5m]))
+              by (le)
+          ) > 0.2
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "API p95 latency above 200ms"
+          description: "p95 latency over 200ms for 10 minutes."
+
+  - name: workers
+    interval: 30s
+    rules:
+      - alert: BeatNotRunning
+        expr: absent(celery_worker_up{type="beat"}) == 1
+        for: 2m
+        labels:
+          severity: page
+        annotations:
+          summary: "Celery Beat is not running"
+          description: |
+            Beat is the only thing that schedules polls. Without it nothing
+            ingests. Restart the beat Deployment.
