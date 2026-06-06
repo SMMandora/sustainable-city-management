@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: scm
+
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - secret.example.yaml
+  - postgres.yaml
+  - redis.yaml
+  - backend-web.yaml
+  - backend-worker.yaml
+  - backend-beat.yaml
+  - frontend.yaml
+  - ingress.yaml
+  - pdb.yaml
+  - hpa.yaml
+
+labels:
+  - pairs:
+      app.kubernetes.io/part-of: scm

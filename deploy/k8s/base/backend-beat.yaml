@@ -1,0 +1,53 @@
+# IMPORTANT: replicas: 1 only. Two Beat pods would double-schedule every task.
+# Recreate strategy ensures no overlap during rollouts.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: beat
+  namespace: scm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: beat
+  template:
+    metadata:
+      labels:
+        app: beat
+    spec:
+      containers:
+        - name: beat
+          image: scm-backend:dev
+          imagePullPolicy: IfNotPresent
+          command:
+            - celery
+            - -A
+            - config
+            - beat
+            - -l
+            - info
+            - -s
+            - /tmp/celerybeat-schedule
+          envFrom:
+            - configMapRef:
+                name: scm-config
+          env:
+            - name: DJANGO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: scm-secrets
+                  key: django-secret-key
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: scm-secrets
+                  key: postgres-password
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi

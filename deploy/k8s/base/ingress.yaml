@@ -1,0 +1,82 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: scm
+  namespace: scm
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: scm.localtest.me
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 8000
+          - path: /healthz
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 8000
+          - path: /readyz
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 8000
+          - path: /metrics
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 8000
+          - path: /admin
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 8000
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+---
+# Streaming-friendly ingress for SSE: buffer off, long timeouts.
+# Separate Ingress so the SSE annotations don't affect bulk REST.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: scm-stream
+  namespace: scm
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: scm.localtest.me
+      http:
+        paths:
+          - path: /api/v1/stream
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 8000

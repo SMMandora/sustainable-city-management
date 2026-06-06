@@ -56,8 +56,31 @@ just kind-up       # spin up local kind cluster
 just deploy-staging  # kubectl apply -k deploy/k8s/overlays/kind
 ```
 
+## Local K8s staging
+
+Mirrors the production topology on a local [kind](https://kind.sigs.k8s.io/)
+cluster behind nginx-ingress at `http://scm.localtest.me`.
+
+```sh
+just kind-up          # create cluster + install nginx-ingress
+just kind-load        # build images + load into kind's local cache
+
+# Create real secrets (do not commit):
+kubectl create secret generic scm-secrets -n scm \
+  --from-literal=django-secret-key="$(openssl rand -hex 32)" \
+  --from-literal=postgres-password='postgres' \
+  --from-literal=openweather-api-key='<your-key>' \
+  --from-literal=sonitus-username='' \
+  --from-literal=sonitus-password=''
+
+just deploy-staging   # kubectl apply -k deploy/k8s/overlays/kind
+```
+
+See [`docs/architecture.md`](docs/architecture.md) for the data flow diagram
+and ADRs in [`docs/adr/`](docs/adr/) for the data-model, ingestion-strategy,
+and API-versioning decisions.
+
 ## Status
 
-Built incrementally in 8 phases (see
-[`build plan`](https://github.com/) — phase 1: skeleton). Track progress in
-the plan file under `.claude/plans/`.
+Built incrementally in 8 phases. Track progress in the plan file under
+`.claude/plans/`.

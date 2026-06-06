@@ -58,3 +58,28 @@ precommit-install:
 
 precommit:
     pre-commit run --all-files
+
+# Local K8s staging (kind)
+kind-up:
+    bash scripts/kind-up.sh
+
+kind-down:
+    kind delete cluster --name scm
+
+# Build images into kind's local cache so the manifests can use them.
+kind-load:
+    docker compose -f deploy/docker-compose.yml build web frontend
+    kind load docker-image scm-backend:dev --name scm
+    kind load docker-image scm-frontend:dev --name scm
+
+deploy-staging:
+    kubectl apply -k deploy/k8s/overlays/kind
+    kubectl rollout status -n scm deployment/web --timeout=180s
+    kubectl rollout status -n scm deployment/worker --timeout=180s
+    kubectl rollout status -n scm deployment/beat --timeout=180s
+    kubectl rollout status -n scm deployment/frontend --timeout=180s
+    @echo
+    @echo "Open http://scm.localtest.me in your browser."
+
+undeploy-staging:
+    kubectl delete -k deploy/k8s/overlays/kind

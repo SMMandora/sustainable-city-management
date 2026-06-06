@@ -1,0 +1,32 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: web
+  namespace: scm
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: web
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: worker
+  namespace: scm
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: worker
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: frontend
+  namespace: scm
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: frontend

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: scm-config
+  namespace: scm
+data:
+  DJANGO_SETTINGS_MODULE: "config.settings.prod"
+  DJANGO_DEBUG: "false"
+  DJANGO_ALLOWED_HOSTS: "scm.localtest.me,localhost,127.0.0.1"
+  DATABASE_URL: "postgres://postgres:postgres@postgres:5432/scm"
+  REDIS_URL: "redis://redis:6379/0"
+  CELERY_BROKER_URL: "redis://redis:6379/0"
+  CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+  EVENTSTREAM_REDIS_URL: "redis://redis:6379/2"
+  EVENTSTREAM_REDIS_HOST: "redis"
+  EVENTSTREAM_REDIS_PORT: "6379"
+  EVENTSTREAM_REDIS_DB: "2"
