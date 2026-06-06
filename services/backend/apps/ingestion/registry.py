@@ -35,6 +35,7 @@ class FeedConfig:
     record_schema: type[BaseModel]
     records_extractor: Callable[[Any], list[Any]]
     persister: Callable[..., dict[str, int]]
+    sse_topic: str | None = None
 
 
 @dataclass(frozen=True)
@@ -63,6 +64,7 @@ SOURCES: dict[str, SourceConfig] = {
                 record_schema=GBFSStationInfo,
                 records_extractor=_gbfs_records,
                 persister=persist_bike_stations,
+                sse_topic="bikes",
             ),
             FeedConfig(
                 name="station_status",
@@ -71,6 +73,7 @@ SOURCES: dict[str, SourceConfig] = {
                 record_schema=GBFSStationStatus,
                 records_extractor=_gbfs_records,
                 persister=persist_bike_availability,
+                sse_topic="bikes",
             ),
         ],
     ),
@@ -84,6 +87,7 @@ SOURCES: dict[str, SourceConfig] = {
                 record_schema=OpenWeatherCurrentPayload,
                 records_extractor=_identity_records,
                 persister=persist_weather,
+                sse_topic="weather",
             ),
         ],
     ),
@@ -97,6 +101,7 @@ SOURCES: dict[str, SourceConfig] = {
                 record_schema=SonitusMonitor,
                 records_extractor=lambda body: body["monitors"],
                 persister=persist_noise_sensors,
+                sse_topic="noise",
             ),
             FeedConfig(
                 name="readings",
@@ -105,6 +110,7 @@ SOURCES: dict[str, SourceConfig] = {
                 record_schema=SonitusReading,
                 records_extractor=lambda body: body["readings"],
                 persister=persist_noise_readings,
+                sse_topic="noise",
             ),
         ],
     ),

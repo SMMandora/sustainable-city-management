@@ -95,9 +95,32 @@ def process(source: DataSource, response: httpx.Response, feed: FeedConfig) -> d
         deadlettered=deadlettered,
         **result,
     )
+    if feed.sse_topic and result.get("upserted", 0) > 0:
+        _publish(feed.sse_topic, source.slug, feed.name, result)
     return {
         "raw_id": raw.id,
         "validated": len(validated),
         "deadlettered": deadlettered,
         **result,
     }
+
+
+def _publish(topic: str, source_slug: str, feed_name: str, summary: dict[str, int]) -> None:
+    """Push an SSE delta to subscribers. Import locally so tests without
+    Channels installed (or running) don't fail the pipeline import."""
+    try:
+        from django_eventstream import send_event
+    except ImportError:
+        return
+    try:
+        send_event(
+            topic,
+            "delta",
+            {
+                "source": source_slug,
+                "feed": feed_name,
+                "upserted": summary.get("upserted", 0),
+            },
+        )
+    except Exception as exc:
+        log.warning("sse.publish_failed", topic=topic, source=source_slug, error=str(exc))

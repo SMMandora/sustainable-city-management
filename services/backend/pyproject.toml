@@ -22,6 +22,10 @@ dependencies = [
     "structlog>=24,<25",
     "django-structlog>=8,<9",
     "orjson>=3.10,<4",
+    "channels>=4.2,<5",
+    "channels-redis>=4.2,<5",
+    "django-eventstream>=5.3,<6",
+    "daphne>=4.1,<5",
 ]
 
 [dependency-groups]

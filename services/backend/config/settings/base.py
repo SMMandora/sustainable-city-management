@@ -17,6 +17,7 @@ DEBUG = env("DJANGO_DEBUG")
 ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS")
 
 INSTALLED_APPS = [
+    "daphne",
     "django_prometheus",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -28,6 +29,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "drf_spectacular",
     "django_structlog",
+    "channels",
+    "django_eventstream",
     "apps.core",
     "apps.observations",
     "apps.ingestion",
@@ -67,6 +70,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 ASGI_APPLICATION = "config.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {"hosts": [env("EVENTSTREAM_REDIS_URL", default="redis://redis:6379/2")]},
+    },
+}
+
+EVENTSTREAM_REDIS = {
+    "host": env("EVENTSTREAM_REDIS_HOST", default="redis"),
+    "port": env.int("EVENTSTREAM_REDIS_PORT", default=6379),
+    "db": env.int("EVENTSTREAM_REDIS_DB", default=2),
+}
 
 DATABASES = {
     "default": {

@@ -7,6 +7,9 @@ import {
   type BikeAvailability,
   type BikeStation,
 } from "../../lib/api";
+import { useEventSource } from "../../lib/sse";
+
+const BIKE_INVALIDATE_KEYS = [["bike-availability-latest"]] as const;
 
 // Default Leaflet markers don't resolve in Vite without this; we use CircleMarker
 // to avoid that issue entirely. This shim is kept for any future Marker usage.
@@ -31,8 +34,11 @@ export function BikeMapPage() {
   const availabilityQuery = useQuery<BikeAvailability[]>({
     queryKey: ["bike-availability-latest"],
     queryFn: fetchLatestBikeAvailability,
-    refetchInterval: 30_000,
+    refetchInterval: 60_000,
   });
+
+  // Push: refetch availability whenever a bike-ingest poll finishes.
+  useEventSource("bikes", BIKE_INVALIDATE_KEYS);
 
   if (stationsQuery.isLoading || availabilityQuery.isLoading) {
     return <div style={{ padding: "2rem" }}>Loading…</div>;
